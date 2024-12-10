@@ -1,9 +1,9 @@
 package com.example.order
 
+
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
@@ -44,9 +44,12 @@ import com.example.order.ui.theme.Orange900
 
 @Composable
 fun TopView(onTapButton: () -> Unit) {
-    Column(modifier = Modifier.background(Color.Yellow)) {
-        Box{
-            //Image()
+    Column {
+        Box(contentAlignment = Alignment.TopCenter){
+            Image(
+                painter = painterResource(id = R.drawable.top),
+                contentDescription = "hamburger"
+            )
             Text(
                 text = buildAnnotatedString {
                     withStyle(style = SpanStyle(color = Orange900)){
@@ -68,12 +71,37 @@ fun TopView(onTapButton: () -> Unit) {
                 )
             )
         }
-        //Image()
-        Row {  }
+        Image(
+            painter = painterResource(id = R.drawable.middle),
+            contentDescription = "hamburger"
+        )
+        val scrollState = rememberScrollState()
+        val menuItems = listOf(
+            Pair("classicbeef",R.drawable.classicbeef),
+            Pair("spicychicken",R.drawable.spicychicken),
+            Pair("vegetarian",R.drawable.vegetarian),
+            Pair("barbecue",R.drawable.barbecue),
+            Pair("hotdog",R.drawable.hotdog),
+            Pair("coffee",R.drawable.coffee),
+            Pair("nugget",R.drawable.nugget)
+        )
+        Row(
+            modifier = Modifier.horizontalScroll(scrollState)
+        ) {
+            menuItems.forEach{ menuItem ->
+                MenuView(modifier = Modifier
+                    .width(150.dp)
+                    .height(150.dp),
+                    id = menuItem.second,
+                    title = menuItem.first,
+                    onClick = { onTapButton() })
+
+            }
+        }
     }
 }
 
-@Preview(showBackground = true, widthDp = 400, heightDp = 100)
+@Preview(showBackground = true, widthDp = 360, heightDp = 740)
 @Composable
 fun TopViewPreview() {
     TopView(onTapButton = {})
